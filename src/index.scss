@@ -1,0 +1,10 @@
+@import "./app/common/settings";
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-family;
+  font-weight: $main-font-weight;
+  font-size: $main-font-size;
+  color: $main-font-color;
+}
