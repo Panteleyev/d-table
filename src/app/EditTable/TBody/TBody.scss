@@ -1,0 +1,15 @@
+@import "../../common/mixins.scss";
+
+.t-body {
+  label {
+    font-size: 70%;
+  }
+
+  input {
+    width: 100%;
+
+    &[type='button'] {
+      @include button-style(red, white);
+    }
+  }
+}

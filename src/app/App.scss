@@ -1,2 +1,9 @@
 .App {
+  height: 100%;
+  overflow-x: auto;
+
+  h2 {
+    padding: 10px;
+    color: red;
+  }
 }

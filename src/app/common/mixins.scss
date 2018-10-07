@@ -1,0 +1,12 @@
+// Миксины
+@mixin button-style($color, $bgColor) {
+  outline: none;
+  color: $color;
+  background-color: $bgColor;
+  font-weight: 700;
+
+  &:hover {
+    color: $bgColor;
+    background-color: $color;
+  }
+}

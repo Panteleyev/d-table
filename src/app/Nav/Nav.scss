@@ -1,0 +1,20 @@
+@import "../common/mixins.scss";
+
+.nav {
+  border: 2px solid black;
+  position: fixed;
+  top: 0;
+  right: 20px;
+
+  .add, .re-gen {
+    font-size: 18px;
+  }
+
+  .add {
+    @include button-style(white, green);
+  }
+
+  .re-gen {
+    @include button-style(white, blue);
+  }
+}

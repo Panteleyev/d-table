@@ -1,0 +1,14 @@
+.table {
+  padding: 10px;
+  margin: 0 auto;
+
+  th, td {
+    &:nth-child(2),
+    &:nth-child(3) {
+      width: 320px;
+    }
+    &:last-child {
+      width: 50px;
+    }
+  }
+}
