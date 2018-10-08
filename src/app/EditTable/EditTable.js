@@ -4,7 +4,7 @@
 import React from 'react';
 import {arrayOf, shape, number, string, func} from 'prop-types';
 import styles from './EditTable.scss';
-import HeaderCell from './Cell/Cell';
+import HeaderCell from './TBody/Cell/Cell';
 import TBody from './TBody/TBody';
 import {EDIT_TABLE_PROP_TYPES} from '../common/globalPropTypes';
 

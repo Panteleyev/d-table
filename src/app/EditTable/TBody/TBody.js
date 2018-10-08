@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {arrayOf, func, number, shape, string} from 'prop-types';
-import Cell from '../Cell/Cell';
+import Cell from './Cell/Cell';
 import styles from './TBody.scss';
 import TextInput from '../../TextInput/TextInput';
 import {EDIT_TABLE_PROP_TYPES} from '../../common/globalPropTypes';

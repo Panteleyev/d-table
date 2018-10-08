@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {number, string, node, bool} from 'prop-types';
-import {COLORS} from '../../common/settings';
+import {COLORS} from '../../../common/settings';
 
 class Cell extends Component {
   constructor(props) {
