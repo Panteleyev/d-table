@@ -3,7 +3,6 @@
  */
 import React, {Component} from 'react';
 import {number, string, node, bool} from 'prop-types';
-import styles from './Cell.scss';
 import {COLORS} from '../../common/settings';
 
 class Cell extends Component {
@@ -45,9 +44,7 @@ class Cell extends Component {
       backgroundColor: COLORS[this.bgColorNumerVariant2],
     };
 
-    return isTh ?
-      (<th className={styles.th} style={style}>{children}</th>)
-      : (<td className={styles.td} style={style}>{children}</td>)
+    return isTh ? <th style={style}>{children}</th> : <td style={style}>{children}</td>
   }
 }
 

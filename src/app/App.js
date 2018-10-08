@@ -6,13 +6,11 @@ import styles from './App.scss';
 import EditTable from './EditTable/EditTable';
 import {getRandomInt} from './common/lib';
 import Nav from './Nav/Nav';
-import {COLORS, ROWS_DEF_COUNT} from './common/settings';
+import {ROWS_DEF_COUNT} from './common/settings';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.rowsDefCount = ROWS_DEF_COUNT;
-    this.bgColorNumerVariant = 0;
     this.state = {
       rows: [],
       lastID: 0,
@@ -25,14 +23,7 @@ class App extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (
-      this.state !== nextState
-    ) {
-      this.bgColorNumerVariant = this.bgColorNumerVariant < COLORS.length - 1 ? this.bgColorNumerVariant + 1 : 0;
-      return true;
-    }
-
-    return false;
+    return (this.state !== nextState);
   }
 
   /**
@@ -58,8 +49,11 @@ class App extends React.Component {
 
   /**
    * Регенератор строк со случайными значениями
+   * @param {number} countRows - количество генерируемых строк
    */
-  reGenRows = () => this.setState({...this.genRows(this.rowsDefCount),});
+  reGenRows = countRows => {
+    this.setState({...this.genRows(countRows)});
+  };
 
   /**
    * Обработчик добавления строки
@@ -104,9 +98,14 @@ class App extends React.Component {
     }
 
     if (delIndexRow) {
-      this.setState({
-        rows: [...rows.slice(0, delIndexRow), ...rows.slice(delIndexRow + 1)]
-      });
+      this.setState(
+        {rows},
+        () => {
+          this.setState({
+            rows: [...rows.slice(0, delIndexRow), ...rows.slice(delIndexRow + 1)]
+          });
+        }
+      );
     } else {
       this.setState({rows});
     }
@@ -124,6 +123,13 @@ class App extends React.Component {
     });
   };
 
+  /**
+   * Удаление всех строк
+   */
+  delAllRows = () => {
+    this.reGenRows(0);
+  };
+
   render() {
     if (this.state.info && this.state.info.componentStack) {
       console.log(this.state.info.componentStack);
@@ -138,12 +144,9 @@ class App extends React.Component {
     const {
       rows,
     } = this.state;
-    const style = {
-      backgroundColor: COLORS[this.bgColorNumerVariant],
-    };
 
     return (
-      <div className={styles.App} style={style}>
+      <div className={styles.App}>
         <EditTable
           rows={rows}
           updateRow={this.updateRow}
@@ -151,7 +154,8 @@ class App extends React.Component {
         />
         <Nav
           onAddRow={this.onAddRow}
-          reGenRows={this.reGenRows}
+          reGenRows={() => this.reGenRows(ROWS_DEF_COUNT)}
+          delAllRows={this.delAllRows}
         />
       </div>
     );

@@ -3,7 +3,7 @@
  */
 import React, {Component} from 'react';
 import {arrayOf, func, number, shape, string} from 'prop-types';
-import HeaderCell from '../Cell/Cell';
+import Cell from '../Cell/Cell';
 import styles from './TBody.scss';
 import TextInput from '../../TextInput/TextInput';
 import {EDIT_TABLE_PROP_TYPES} from '../../common/globalPropTypes';
@@ -45,13 +45,15 @@ class TBody extends Component {
    */
   onDelRow =
     (e, rowIndex) => {
-      const changedRows = this.state.changedRows;
+      const changedRows_ = this.state.changedRows;
 
+      // прерываем таймер ожидания на разрешение ререндеринга
       clearTimeout(this.changeTimer);
-      if (Object.keys(changedRows).length === 0) {
+
+      if (Object.keys(changedRows_).length === 0) {
         this.props.delRow(rowIndex);
       } else {
-        this.props.updateRow(changedRows, rowIndex);
+        this.props.updateRow(changedRows_, rowIndex);
       }
     };
 
@@ -69,9 +71,9 @@ class TBody extends Component {
     }
 
     changedRows[rowIndex][colIndex] = value;
-    this.setState({changedRows});
-  };
 
+    return changedRows;
+  };
   /**
    * Обработчик изменения значения текстового поля. Минимум через UPDATE_DELAY мсек запускается ререндеринг
    * @param {string} value - значение
@@ -79,21 +81,16 @@ class TBody extends Component {
    * @param {number} colIndex - номер поля
    */
   handleChange = (value, rowIndex, colIndex) => {
-    const changedRows = this.state.changedRows;
-
     // прерываем таймер ожидания на разрешение ререндеринга
     clearTimeout(this.changeTimer);
 
     // записываем обновленное значение в список изменений, которые будут учтены при простое изменения за UPDATE_DELAY мсек
-    this.doStateChangedCell(value, rowIndex, colIndex);
+    const changedRows = this.doStateChangedCell(value, rowIndex, colIndex);
+
+    this.setState({changedRows});
 
     // и запускаем таймер ожидания на разрешение ререндеринга
-    this.changeTimer = setTimeout(
-      () => {
-        this.props.updateRow(changedRows);
-      },
-      UPDATE_DELAY
-    );
+    this.changeTimer = setTimeout(() => this.props.updateRow(changedRows), UPDATE_DELAY);
   };
 
   render() {
@@ -120,8 +117,8 @@ class TBody extends Component {
 
         return (
           <tr key={rowIndex}>
-            <HeaderCell key={`${rowIndex}.1`} value={`${uniqID}`}>{uniqID}</HeaderCell>
-            <HeaderCell key={`${rowIndex}.2`} value={inputEditValue1}>
+            <Cell key={`${rowIndex}.1`} value={`${uniqID}`}>{uniqID}</Cell>
+            <Cell key={`${rowIndex}.2`} value={inputEditValue1}>
               <label htmlFor={inputEditID1}>{inputEditValue1}</label>
               <TextInput
                 id={inputEditID1}
@@ -129,8 +126,8 @@ class TBody extends Component {
                 value={inputEditValue1}
                 onChange={value => this.handleChange(value, rowIndex, 1)}
               />
-            </HeaderCell>
-            <HeaderCell key={`${rowIndex}.3`} value={inputEditValue2}>
+            </Cell>
+            <Cell key={`${rowIndex}.3`} value={inputEditValue2}>
               <label htmlFor={inputEditID2}>{inputEditValue2}</label>
               <TextInput
                 id={inputEditID2}
@@ -138,11 +135,11 @@ class TBody extends Component {
                 value={inputEditValue2}
                 onChange={value => this.handleChange(value, rowIndex, 2)}
               />
-            </HeaderCell>
-            <HeaderCell key={`${rowIndex}.4`} value={BTN_DEL_VALUE}>
+            </Cell>
+            <Cell key={`${rowIndex}.4`} value={BTN_DEL_VALUE}>
               <input type="button" key={`${rowIndex}.4.1`} onClick={e => this.onDelRow(e, rowIndex)}
                      value={BTN_DEL_VALUE} title={BTN_DEL_TITLE}/>
-            </HeaderCell>
+            </Cell>
           </tr>
         )
       })}

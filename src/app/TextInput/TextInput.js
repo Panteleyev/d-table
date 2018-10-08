@@ -54,6 +54,12 @@ class Input extends Component {
   };
 
   /**
+   * Обработчик отпускания клавиши
+   * @param e
+   */
+  handleKeyUp = e => this.triggerChange();
+
+  /**
    * Триггер вызова изменения значения
    */
   triggerChange = () => {
@@ -70,17 +76,20 @@ class Input extends Component {
     }
 
     const {
+      id,
       placeholder,
     } = this.props;
 
     return (
       <input
+        id={id}
         type="text"
         placeholder={placeholder}
         value={this.state.value}
         onChange={this.handleChange}
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
+        onKeyUp={this.handleKeyUp}
         maxLength={MAX_LENGTH}
       />
     )
@@ -88,8 +97,9 @@ class Input extends Component {
 }
 
 Input.propTypes = {
-  value: string.isRequired,
+  id: string,
   placeholder: string,
+  value: string.isRequired,
   onChange: func.isRequired,
 };
 

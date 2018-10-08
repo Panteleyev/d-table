@@ -6,13 +6,11 @@ import {arrayOf, shape, number, string, func} from 'prop-types';
 import styles from './EditTable.scss';
 import HeaderCell from './Cell/Cell';
 import TBody from './TBody/TBody';
-import {COLORS} from '../common/settings';
 import {EDIT_TABLE_PROP_TYPES} from '../common/globalPropTypes';
 
 class EditTable extends React.Component {
   constructor(props) {
     super(props);
-    this.bgColorNumerVariant = 1;
     this.state = {
       error: false,
     };
@@ -23,14 +21,7 @@ class EditTable extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (
-      this.props !== nextProps
-    ) {
-      this.bgColorNumerVariant = this.bgColorNumerVariant < COLORS.length - 1 ? this.bgColorNumerVariant + 1 : 0;
-      return true;
-    }
-
-    return false;
+    return (this.props !== nextProps);
   }
 
   render() {
@@ -45,12 +36,9 @@ class EditTable extends React.Component {
     const {
       ...props
     } = this.props;
-    const style = {
-      backgroundColor: COLORS[this.bgColorNumerVariant],
-    };
 
     return (
-      <table className={styles.table} style={style}>
+      <table className={styles.table}>
         <thead>
         <tr>
           <HeaderCell isTh={true} value="ID">ID</HeaderCell>
